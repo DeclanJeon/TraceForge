@@ -1,0 +1,5 @@
+import { useState } from 'react';
+import { commands } from '../api/commands';
+import type { Report } from '../api/types';
+export function Reports({onChanged}:{onChanged:()=>void}){const [selected,setSelected]=useState<Report|undefined>(); const [busy,setBusy]=useState(false); const reports=commands.reportList(); async function gen(){setBusy(true); const r=await commands.reportGenerate(); setSelected(r.report); setBusy(false); onChanged();}
+return <div className="grid reports"><section className="panel"><div className="section-head"><h2>Reports</h2><button onClick={gen} disabled={busy}>{busy?'Generating...':'Generate Now'}</button></div>{reports.map(r=><button className="report-item" key={r.id} onClick={()=>setSelected(r)}><strong>{r.title}</strong><span>{r.project_name}</span><small>{new Date(r.created_at).toLocaleString()}</small></button>)}{!reports.length&&<p className="empty">아직 생성된 작업일지가 없습니다.</p>}</section><section className="panel report-detail"><h2>{selected?.title??'Report Detail'}</h2>{selected?<pre>{selected.content}</pre>:<p>왼쪽에서 report를 선택하세요.</p>}</section></div>}

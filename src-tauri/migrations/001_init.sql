@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS watch_paths (id TEXT PRIMARY KEY, mode TEXT NOT NULL, path TEXT NOT NULL, enabled INTEGER NOT NULL, max_depth INTEGER NOT NULL, follow_symlinks INTEGER NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS raw_snapshots (id TEXT PRIMARY KEY, file_path TEXT, scope_summary TEXT, captured_at TEXT NOT NULL, hash TEXT NOT NULL, status TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS analysis_jobs (id TEXT PRIMARY KEY, raw_snapshot_id TEXT NOT NULL, provider TEXT NOT NULL, model TEXT NOT NULL, status TEXT NOT NULL, retry_count INTEGER DEFAULT 0, created_at TEXT NOT NULL, completed_at TEXT);
+CREATE TABLE IF NOT EXISTS reports (id TEXT PRIMARY KEY, raw_snapshot_id TEXT NOT NULL, project_id TEXT, report_type TEXT NOT NULL, file_path TEXT NOT NULL, title TEXT NOT NULL, created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS redaction_events (id TEXT PRIMARY KEY, raw_snapshot_id TEXT NOT NULL, pattern_type TEXT NOT NULL, count INTEGER NOT NULL, created_at TEXT NOT NULL);
